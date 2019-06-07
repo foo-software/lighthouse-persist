@@ -1,0 +1,43 @@
+{
+  "name": "lighthouse-persist",
+  "version": "0.0.1",
+  "description": "A tool for handling Lighthouse results to persist used for website performance monitoring and analysis.",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/foo-software/lighthouse-persist.git"
+  },
+  "keywords": [
+    "lighthouse",
+    "google",
+    "performance",
+    "website",
+    "performance",
+    "monitoring",
+    "website",
+    "performance",
+    "monitoring"
+  ],
+  "author": "Adam Henson <adamhenson1979@gmail.com> (https://github.com/adamhenson)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/foo-software/lighthouse-persist/issues"
+  },
+  "homepage": "https://github.com/foo-software/lighthouse-persist#readme",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "babel ./src --out-dir dist",
+    "prepare": "npm run clean && npm run build"
+  },
+  "dependencies": {
+    "node-fetch": "^2.5.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/register": "^7.4.4",
+    "rimraf": "^2.6.3"
+  }
+}
