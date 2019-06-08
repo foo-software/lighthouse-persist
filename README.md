@@ -4,6 +4,22 @@
 
 Lighthouse Persist uses `lighthouse@5.1.0` under the hood.
 
+## Usage
+
+```javascript
+import lighthousePersist from 'lighthouse-persist';
+
+const { report, result } = await lighthousePersist({
+  url: 'https://www.foo.software',
+  awsAccessKeyId: 'abc123',
+  awsBucket: 'myBucket',
+  awsRegion: 'us-east-1',
+  awsSecretAccessKey: 'def456',
+});
+```
+
+See [Response Payload](#response-payload) to find out what `report` and `result` are.
+
 ## Parameters
 
 <table>
@@ -78,22 +94,6 @@ The result of calling the default function with the parameters above is an objec
     <td><code>string</code></td>
   </tr>
 </table>
-
-## Usage
-
-```javascript
-import lighthousePersist from 'lighthouse-persist';
-
-const { report, result } = await lighthousePersist({
-  url: 'https://www.foo.software',
-  awsAccessKeyId: 'abc123',
-  awsBucket: 'myBucket',
-  awsRegion: 'us-east-1',
-  awsSecretAccessKey: 'def456',
-});
-```
-
-See [Response Payload](#response-payload) to find out what `report` and `result` are.
 
 ## Credits
 
