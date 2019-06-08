@@ -1,7 +1,7 @@
 {
   "name": "lighthouse-persist",
   "version": "0.0.1",
-  "description": "A tool for handling Lighthouse results to persist used for website performance monitoring and analysis.",
+  "description": "A tool for persisting Lighthouse audit results used for website performance monitoring and analysis.",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
@@ -11,12 +11,10 @@
     "lighthouse",
     "google",
     "performance",
-    "website",
-    "performance",
-    "monitoring",
-    "website",
-    "performance",
-    "monitoring"
+    "seo",
+    "progressive web app",
+    "best practices",
+    "website performance monitoring"
   ],
   "author": "Adam Henson <adamhenson1979@gmail.com> (https://github.com/adamhenson)",
   "license": "MIT",
@@ -30,7 +28,9 @@
     "prepare": "npm run clean && npm run build"
   },
   "dependencies": {
-    "node-fetch": "^2.5.0"
+    "aws-sdk": "^2.471.0",
+    "chrome-launcher": "^0.10.7",
+    "lighthouse": "^5.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
