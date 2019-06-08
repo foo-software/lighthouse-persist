@@ -25,7 +25,8 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "babel ./src --out-dir dist",
-    "prepare": "npm run clean && npm run build"
+    "prepare": "npm run clean && npm run build",
+    "test": "jest"
   },
   "dependencies": {
     "aws-sdk": "^2.471.0",
@@ -38,6 +39,7 @@
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.4",
     "@babel/register": "^7.4.4",
+    "jest": "^24.8.0",
     "rimraf": "^2.6.3"
   }
 }
