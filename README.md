@@ -1,8 +1,8 @@
 # `@foo-software/lighthouse-persist`
 
-> A tool for persisting Lighthouse audit results for website monitoring and analysis. Performance, SEO, progressive web app, best practices are exposed in a results object and included in an HTML view, uploaded to your S3 account.
+> A tool for persisting Lighthouse audit results for website monitoring and analysis. Performance, SEO, progressive web app, best practices are exposed in a results object and included in an HTML report, uploaded to your S3 account.
 
-Lighthouse Persist uses `lighthouse@5.1.0` under the hood.
+Lighthouse Persist automatically uploads a Lighthouse report to your AWS S3 account and exposes the same result as using `lighthouse` directly. It uses `lighthouse@5.1.0` under the hood.
 
 ## Usage
 
