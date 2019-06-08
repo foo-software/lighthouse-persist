@@ -61,13 +61,13 @@ See [Response Payload](#response-payload) to find out what `report` and `result`
     <td><code>config</code></td>
     <td>The <a href="https://github.com/GoogleChrome/lighthouse/blob/master/docs/configuration.md">Lighthouse configuration</a>.</td>
     <td><code>object</code></td>
-    <td>The default config should align with Chrome DevTools. See the <a href="src/config.js">exact default config here</a>.</td>
+    <td>The default config should align with Chrome DevTools. See the <a href="src/config.js">exact default config here</a> or <a href="src/__snapshots__/config.test.js.snap">snapshot here</a>.</td>
   </tr>
   <tr>
     <td><code>options</code></td>
     <td>The AWS <code>accessKeyId</code> for an S3 account.</td>
     <td><code>object</code></td>
-    <td>See the <a href="src/options.js">exact default options here</a>.</td>
+    <td>See the <a href="src/options.js">exact default options here</a> or <a href="src/__snapshots__/options.test.js.snap">snapshot here</a>.</td>
   </tr>
   <tr>
     <td><code>url</code></td>
