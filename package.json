@@ -30,7 +30,7 @@
   "dependencies": {
     "aws-sdk": "^2.471.0",
     "chrome-launcher": "^0.10.7",
-    "lighthouse": "^5.1.0"
+    "lighthouse": "5.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
