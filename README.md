@@ -6,6 +6,8 @@ Lighthouse Persist automatically uploads a Lighthouse report to your AWS S3 acco
 
 <img src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-audit-report.png" />
 
+See a full [example report here](https://s3.amazonaws.com/foo-software-html/lighthouse-report-example.html).
+
 ## Usage
 
 ```javascript
