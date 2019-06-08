@@ -89,7 +89,7 @@ The result of calling the default function with the parameters above is an objec
   </tr>
   <tr>
     <td><code>result</code></td>
-    <td>A comprehensive result - the equivalent of what is returned when using the `lighthouse` module directly.</td>
+    <td>A comprehensive result - the equivalent of what is returned when using the <code>lighthouse</code> module directly.</td>
     <td><code>object</code></td>
   </tr>
   <tr>
@@ -98,6 +98,10 @@ The result of calling the default function with the parameters above is an objec
     <td><code>string</code></td>
   </tr>
 </table>
+
+## Taking it to Another Level
+
+If you're interested running Lighthouse performance audits on your web pages automatically - check out [www.foo.software](https://www.foo.software). Foo runs audits automatically, stores results and provides charts in a timeline view. You can also trigger runs via Foo's public REST API and tag (with a build number for example). See [video demos about all of this here](https://www.foo.software/videos).
 
 ## Credits
 
