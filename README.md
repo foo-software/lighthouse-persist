@@ -4,6 +4,8 @@
 
 Lighthouse Persist automatically uploads a Lighthouse report to your AWS S3 account and exposes the same result as using `lighthouse` directly. It uses `lighthouse@5.1.0` under the hood.
 
+<img src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-audit-report.png" />
+
 ## Usage
 
 ```javascript
