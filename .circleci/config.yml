@@ -10,7 +10,7 @@ jobs:
 
 workflows:
   version: 2
-  test:
+  instal_and_test:
     jobs:
       - test:
         filters:
