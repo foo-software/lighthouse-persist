@@ -10,6 +10,6 @@ jobs:
 
 workflows:
   version: 2
-  test-only:
+  test_only:
     jobs:
       - test:
