@@ -14,6 +14,12 @@ See a full [example report here](https://s3.amazonaws.com/foo-software-html/ligh
 - Exposes the result similar to that of using `lighthouse` directly.
 - Uses `lighthouse@5.1.0` under the hood.
 
+## Install
+
+```bash
+npm install @foo-software/lighthouse-persist
+```
+
 ## Usage
 
 ```javascript
