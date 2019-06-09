@@ -1,6 +1,6 @@
 {
   "name": "@foo-software/lighthouse-persist",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A tool for persisting Lighthouse audit results used for website performance monitoring and analysis.",
   "main": "dist/index.js",
   "repository": {
@@ -25,7 +25,9 @@
   },
   "homepage": "https://github.com/foo-software/lighthouse-persist#readme",
   "jest": {
-    "modulePathIgnorePatterns": ["<rootDir>/dist/"]
+    "modulePathIgnorePatterns": [
+      "<rootDir>/dist/"
+    ]
   },
   "scripts": {
     "clean": "rimraf dist",
