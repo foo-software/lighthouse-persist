@@ -24,6 +24,9 @@
     "url": "https://github.com/foo-software/lighthouse-persist/issues"
   },
   "homepage": "https://github.com/foo-software/lighthouse-persist#readme",
+  "jest": {
+    "modulePathIgnorePatterns": ["<rootDir>/dist/"]
+  },
   "scripts": {
     "clean": "rimraf dist",
     "build": "babel ./src --out-dir dist",
