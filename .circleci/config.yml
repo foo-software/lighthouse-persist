@@ -10,9 +10,9 @@ jobs:
 
 workflows:
   version: 2
-  instal_and_test:
+  test:
     jobs:
-      - test:
+      test:
         filters:
           branches:
             only: master
