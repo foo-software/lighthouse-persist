@@ -17,7 +17,7 @@ See a full [example report here](https://s3.amazonaws.com/foo-software-html/ligh
 ## Usage
 
 ```javascript
-import lighthousePersist from 'lighthouse-persist';
+import lighthousePersist from '@foo-software/lighthouse-persist';
 
 const { report, result } = await lighthousePersist({
   url: 'https://www.foo.software',
