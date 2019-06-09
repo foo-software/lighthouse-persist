@@ -1,6 +1,6 @@
 {
   "name": "@foo-software/lighthouse-persist",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A tool for persisting Lighthouse audit results used for website performance monitoring and analysis.",
   "main": "dist/index.js",
   "repository": {
