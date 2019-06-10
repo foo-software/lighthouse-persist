@@ -1,6 +1,6 @@
 # `@foo-software/lighthouse-persist`
 
-> A tool for persisting Lighthouse audit results for website monitoring and analysis. Performance, SEO, progressive web app, best practices are exposed in a results object and included in an HTML report, uploaded to your S3 account.
+> A tool for persisting Lighthouse audit results for website monitoring and analysis. Performance, SEO, progressive web app, best practices are exposed in a results object and included in an HTML report, uploaded to your AWS S3 bucket.
 
 <img src="https://s3.amazonaws.com/foo.software/images/marketing/screenshots/lighthouse-audit-report.png" />
 
@@ -10,7 +10,7 @@ See a full [example report here](https://s3.amazonaws.com/foo-software-html/ligh
 
 - Defines the `output` [option](https://github.com/GoogleChrome/lighthouse#cli-options) as `html`.
 - Runs all Lighthouse audits - Performance, SEO, progressive web app, best practices. Parameters support custom Lighthouse options and configuration.
-- Extracts content of the HTML report, populates it in a file uploaded to the AWS S3 account specified by parameters.
+- Extracts content of the HTML report, populates it in a file uploaded to the AWS S3 bucket specified by parameters.
 - Exposes the result similar to that of using `lighthouse` directly.
 - Uses `lighthouse@5.1.0` under the hood.
 
@@ -47,25 +47,25 @@ See [Response Payload](#response-payload) to find out what `report` and `result`
   </tr>
   <tr>
     <td><code>awsAccessKeyId</code></td>
-    <td>The AWS <code>accessKeyId</code> for an S3 account.</td>
+    <td>The AWS <code>accessKeyId</code> for an S3 bucket.</td>
     <td><code>string</code></td>
     <td><code>--</code></td>
   </tr>
   <tr>
     <td><code>awsBucket</code></td>
-    <td>The AWS <code>Bucket</code> for an S3 account.</td>
+    <td>The AWS <code>Bucket</code> for an S3 bucket.</td>
     <td><code>string</code></td>
     <td><code>--</code></td>
   </tr>
   <tr>
     <td><code>awsRegion</code></td>
-    <td>The AWS <code>region</code> for an S3 account.</td>
+    <td>The AWS <code>region</code> for an S3 bucket.</td>
     <td><code>string</code></td>
     <td><code>--</code></td>
   </tr>
   <tr>
     <td><code>awsSecretAccessKey</code></td>
-    <td>The AWS <code>secretAccessKey</code> for an S3 account.</td>
+    <td>The AWS <code>secretAccessKey</code> for an S3 bucket.</td>
     <td><code>string</code></td>
     <td><code>--</code></td>
   </tr>
@@ -77,7 +77,7 @@ See [Response Payload](#response-payload) to find out what `report` and `result`
   </tr>
   <tr>
     <td><code>options</code></td>
-    <td>The AWS <code>accessKeyId</code> for an S3 account.</td>
+    <td>The AWS <code>accessKeyId</code> for an S3 bucket.</td>
     <td><code>object</code></td>
     <td>See the <a href="src/options.js">exact default options here</a> or <a href="src/__snapshots__/options.test.js.snap">snapshot here</a>.</td>
   </tr>
