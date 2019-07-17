@@ -77,7 +77,7 @@ See [Response Payload](#response-payload) to find out what `report` and `result`
   </tr>
   <tr>
     <td><code>options</code></td>
-    <td>The AWS <code>accessKeyId</code> for an S3 bucket.</td>
+    <td>The <a href="https://github.com/GoogleChrome/lighthouse/tree/master/docs#differences-from-cli-flags">Lighthouse programmatic options</a>, similar to the CLI.</td>
     <td><code>object</code></td>
     <td>See the <a href="src/options.js">exact default options here</a> or <a href="src/__snapshots__/options.test.js.snap">snapshot here</a>.</td>
   </tr>
