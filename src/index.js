@@ -1,3 +1,4 @@
+import fs from 'fs';
 import lighthouse from 'lighthouse';
 import * as chromeLauncher from 'chrome-launcher';
 import AWS from 'aws-sdk';
@@ -13,8 +14,17 @@ export default async ({
   awsSecretAccessKey: secretAccessKey,
   config: customConfig,
   options: customOptions,
+  outputDirectory,
   url
 }) => {
+  // will upload to S3?
+  const isS3 = !!(accessKeyId && Bucket && region && secretAccessKey);
+
+  // if a URL, output directory, or S3 creds are missing - we got a problem.
+  if (!outputDirectory && !url && !isS3) {
+    throw new Error('Missing required params.');
+  }
+
   const options = {
     ...defaultOptions,
     ...customOptions
@@ -35,27 +45,43 @@ export default async ({
 
   const results = await lighthouse(url, options, fullConfig);
 
-  // upload to S3
-  const s3Response = await upload({
-    s3bucket: new AWS.S3({
-      accessKeyId,
-      Bucket,
-      region,
-      secretAccessKey
-    }),
-    params: {
-      ACL: 'public-read',
-      Body: results.report,
-      Bucket,
-      ContentType: 'text/html',
-      Key: `lighthouse-report-${Date.now()}.html`
-    }
-  });
+  // a remote URL
+  let report;
+
+  // a local file path
+  let localReport;
+
+  if (isS3) {
+    // upload to S3
+    const s3Response = await upload({
+      s3bucket: new AWS.S3({
+        accessKeyId,
+        Bucket,
+        region,
+        secretAccessKey
+      }),
+      params: {
+        ACL: 'public-read',
+        Body: results.report,
+        Bucket,
+        ContentType: 'text/html',
+        Key: `lighthouse-report-${Date.now()}.html`
+      }
+    });
+
+    report = s3Response.Location;
+  }
+
+  if (outputDirectory) {
+    localReport = `${outputDirectory}/lighthouse-report-${Date.now()}.html`;
+    fs.writeFileSync(localReport, results.report);
+  }
 
   await chrome.kill();
 
   return {
+    localReport,
     result: JSON.parse(JSON.stringify(results.lhr)),
-    report: s3Response.Location
+    report
   };
 };
