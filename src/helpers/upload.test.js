@@ -2,7 +2,7 @@ import upload from './upload';
 
 describe('upload', () => {
   const params = {
-    hello: 'world',
+    hello: 'world'
   };
 
   it('should resolve when data exists', async () => {
@@ -12,8 +12,8 @@ describe('upload', () => {
       s3bucket: {
         upload: (params, callback) => {
           callback(null, data);
-        },
-      },
+        }
+      }
     });
 
     expect(response).toEqual(data);
@@ -28,8 +28,8 @@ describe('upload', () => {
         s3bucket: {
           upload: (params, callback) => {
             callback(rejectionError, null);
-          },
-        },
+          }
+        }
       });
     } catch (error) {
       expect(error).toEqual(rejectionError);

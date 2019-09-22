@@ -19,7 +19,7 @@ const throttling = {
     requestLatencyMs: 150 * DEVTOOLS_RTT_ADJUSTMENT_FACTOR,
     downloadThroughputKbps: 1.6 * 1024 * DEVTOOLS_THROUGHPUT_ADJUSTMENT_FACTOR,
     uploadThroughputKbps: 750 * DEVTOOLS_THROUGHPUT_ADJUSTMENT_FACTOR,
-    cpuSlowdownMultiplier: 4,
+    cpuSlowdownMultiplier: 4
   },
   // These values partially align with WebPageTest's definition of "Regular 3G".
   // These values are meant to roughly align with Chrome UX report's 3G definition which are based
@@ -30,8 +30,8 @@ const throttling = {
     requestLatencyMs: 300 * DEVTOOLS_RTT_ADJUSTMENT_FACTOR,
     downloadThroughputKbps: 700 * DEVTOOLS_THROUGHPUT_ADJUSTMENT_FACTOR,
     uploadThroughputKbps: 700 * DEVTOOLS_THROUGHPUT_ADJUSTMENT_FACTOR,
-    cpuSlowdownMultiplier: 4,
-  },
+    cpuSlowdownMultiplier: 4
+  }
 };
 
 // https://github.com/GoogleChrome/lighthouse/blob/master/docs/configuration.md
@@ -45,6 +45,6 @@ export default {
     // https://github.com/GoogleChrome/lighthouse/blob/8f500e00243e07ef0a80b39334bedcc8ddc8d3d0/lighthouse-core/config/constants.js#L19-L26
     // https://github.com/GoogleChrome/lighthouse/blob/master/docs/throttling.md
     throttling: throttling.mobileSlow4G,
-    throttlingMethod: 'simulate',
-  },
+    throttlingMethod: 'simulate'
+  }
 };

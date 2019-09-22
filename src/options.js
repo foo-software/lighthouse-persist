@@ -3,7 +3,7 @@ export default {
     '--disable-dev-shm-usage',
     '--headless',
     '--no-sandbox',
-    '--ignore-certificate-errors',
+    '--ignore-certificate-errors'
   ],
-  port: 4000,
+  port: 4000
 };

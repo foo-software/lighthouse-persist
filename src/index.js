@@ -13,16 +13,16 @@ export default async ({
   awsSecretAccessKey: secretAccessKey,
   config: customConfig,
   options: customOptions,
-  url,
+  url
 }) => {
   const options = {
     ...defaultOptions,
-    ...customOptions,
+    ...customOptions
   };
 
   const chrome = await chromeLauncher.launch({
     chromeFlags: options.chromeFlags,
-    port: options.port,
+    port: options.port
   });
 
   options.output = 'html';
@@ -30,32 +30,32 @@ export default async ({
   // the default config combined with overriding query params
   const fullConfig = {
     ...config,
-    ...customConfig,
+    ...customConfig
   };
 
   const results = await lighthouse(url, options, fullConfig);
-  
+
   // upload to S3
   const s3Response = await upload({
     s3bucket: new AWS.S3({
       accessKeyId,
       Bucket,
       region,
-      secretAccessKey,
+      secretAccessKey
     }),
     params: {
       ACL: 'public-read',
       Body: results.report,
       Bucket,
       ContentType: 'text/html',
-      Key: `lighthouse-report-${Date.now()}.html`,
-    },
+      Key: `lighthouse-report-${Date.now()}.html`
+    }
   });
 
   await chrome.kill();
 
   return {
     result: JSON.parse(JSON.stringify(results.lhr)),
-    report: s3Response.Location,
+    report: s3Response.Location
   };
 };
