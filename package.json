@@ -29,6 +29,17 @@
       "<rootDir>/dist/"
     ]
   },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "scripts": {
     "clean": "rimraf dist",
     "build": "babel ./src --out-dir dist",
@@ -46,7 +57,10 @@
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.4",
     "@babel/register": "^7.4.4",
+    "husky": "^3.0.1",
     "jest": "^24.8.0",
+    "lint-staged": "^9.2.0",
+    "prettier": "1.18.2",
     "rimraf": "^2.6.3"
   }
 }
