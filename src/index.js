@@ -30,7 +30,7 @@ export default async ({
     ...customOptions
   };
 
-  // we need to kill chrome if something goes wrong, so we pull it
+  // we need to kill chrome if something goes wrong, so we pull it up
   // into the function scope to be accessible in the catch block.
   let chrome;
 
