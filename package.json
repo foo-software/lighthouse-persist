@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.533.0",
-    "chrome-launcher": "^0.13.2",
+    "chrome-launcher": "^0.13.4",
     "lighthouse": "^6.4.1"
   },
   "devDependencies": {
