@@ -6,6 +6,13 @@ import config from './config';
 import defaultOptions from './options';
 import upload from './helpers/upload';
 
+const PROTOCOL_TIMEOUT = 'PROTOCOL_TIMEOUT';
+
+const createTimeout = time =>
+  new Promise(resolve => {
+    setTimeout(resolve, time, PROTOCOL_TIMEOUT);
+  });
+
 // https://github.com/GoogleChrome/lighthouse/blob/master/docs/readme.md#using-programmatically
 export default async ({
   awsAccessKeyId: accessKeyId,
@@ -16,6 +23,7 @@ export default async ({
   options: customOptions,
   outputDirectory,
   updateReport,
+  timeout,
   url
 }) => {
   // will upload to S3?
@@ -49,7 +57,16 @@ export default async ({
       ...customConfig
     };
 
-    const results = await lighthouse(url, options, fullConfig);
+    const results = !timeout
+      ? await lighthouse(url, options, fullConfig)
+      : await Promise.race([
+          createTimeout(timeout),
+          lighthouse(url, options, fullConfig)
+        ]);
+
+    if (results === PROTOCOL_TIMEOUT) {
+      throw Error(PROTOCOL_TIMEOUT);
+    }
 
     // a remote URL
     let report;
