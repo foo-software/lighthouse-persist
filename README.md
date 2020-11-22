@@ -43,7 +43,7 @@ const lighthousePersist = require('@foo-software/lighthouse-persist').default;
 Upload report to S3.
 
 ```javascript
-import lighthousePersist from '@foo-software/lighthouse-persist';
+const lighthousePersist = require('@foo-software/lighthouse-persist').default;
 
 (async () => {
   const { report, result } = await lighthousePersist({
@@ -105,6 +105,12 @@ There are two different ways to persist reports. Both ways have required params.
     <td>The default config should align with Chrome DevTools. See the <a href="src/config.js">exact default config here</a> or <a href="src/__snapshots__/config.test.js.snap">snapshot here</a>.</td>
   </tr>
   <tr>
+    <td><code>finalScreenshotAwsBucket</code></td>
+    <td>The AWS <code>Bucket</code> for an S3 bucket. If this is defined, the final screenshot will be uploaded here</td>
+    <td><code>string</code></td>
+    <td><code>undefined</code></td>
+  </tr>
+  <tr>
     <td><code>options</code></td>
     <td>The <a href="https://github.com/GoogleChrome/lighthouse/tree/master/docs#differences-from-cli-flags">Lighthouse programmatic options</a>, similar to the CLI.</td>
     <td><code>object</code></td>
@@ -133,6 +139,11 @@ The result of calling the default function with the parameters above is an objec
     <th>Name</th>
     <th>Description</th>
     <th>Type</th>
+  </tr>
+  <tr>
+    <td><code>finalScreenshot</code></td>
+    <td>A URL to the final screenshot image. This will only be defined if <code>finalScreenshotAwsBucket</code> parameter was.</td>
+    <td><code>string</code></td>
   </tr>
   <tr>
     <td><code>localReport</code></td>

@@ -1,4 +1,5 @@
 import fs from 'fs';
+import get from 'lodash.get';
 import lighthouse from 'lighthouse';
 import * as chromeLauncher from 'chrome-launcher';
 import AWS from 'aws-sdk';
@@ -20,6 +21,7 @@ export default async ({
   awsRegion: region,
   awsSecretAccessKey: secretAccessKey,
   config: customConfig,
+  finalScreenshotAwsBucket,
   options: customOptions,
   outputDirectory,
   updateReport,
@@ -27,7 +29,7 @@ export default async ({
   url
 }) => {
   // will upload to S3?
-  const isS3 = !!(accessKeyId && Bucket && region && secretAccessKey);
+  const isS3 = !!(accessKeyId && region && secretAccessKey);
 
   // if a URL, output directory, or S3 creds are missing - we got a problem.
   if (!outputDirectory && !url && !isS3) {
@@ -74,29 +76,65 @@ export default async ({
     // a local file path
     let localReport;
 
+    // the final thumbnail image
+    let finalScreenshot;
+
     const reportContent = !updateReport
       ? results.report
       : updateReport(results.report);
 
     if (isS3) {
-      // upload to S3
-      const s3Response = await upload({
-        s3bucket: new AWS.S3({
-          accessKeyId,
-          Bucket,
-          region,
-          secretAccessKey
-        }),
-        params: {
-          ACL: 'public-read',
-          Body: reportContent,
-          Bucket,
-          ContentType: 'text/html',
-          Key: `report-${Date.now()}.html`
-        }
-      });
+      if (Bucket) {
+        // upload to S3
+        const s3Response = await upload({
+          s3bucket: new AWS.S3({
+            accessKeyId,
+            Bucket,
+            region,
+            secretAccessKey
+          }),
+          params: {
+            ACL: 'public-read',
+            Body: reportContent,
+            Bucket,
+            ContentType: 'text/html',
+            Key: `report-${Date.now()}.html`
+          }
+        });
 
-      report = s3Response.Location;
+        report = s3Response.Location;
+      }
+
+      if (finalScreenshotAwsBucket) {
+        const finalScreenshotData = get(
+          results,
+          `lhr.audits['final-screenshot'].details.data`
+        );
+
+        if (finalScreenshotData) {
+          const buffer = Buffer.from(
+            finalScreenshotData.replace('data:image/jpeg;base64,', ''),
+            'base64'
+          );
+          const s3Response = await upload({
+            s3bucket: new AWS.S3({
+              accessKeyId,
+              Bucket,
+              region,
+              secretAccessKey
+            }),
+            params: {
+              ACL: 'public-read',
+              Body: buffer,
+              Bucket: finalScreenshotAwsBucket,
+              ContentEncoding: 'base64',
+              ContentType: 'image/jpeg',
+              Key: `final-screenshot-${Date.now()}.jpg`
+            }
+          });
+          finalScreenshot = s3Response.Location;
+        }
+      }
     }
 
     if (outputDirectory) {
@@ -107,6 +145,7 @@ export default async ({
     await chrome.kill();
 
     return {
+      finalScreenshot,
       localReport,
       result: JSON.parse(JSON.stringify(results.lhr)),
       report
