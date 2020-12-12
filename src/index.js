@@ -1,6 +1,8 @@
+import fetch from 'node-fetch';
 import fs from 'fs';
 import get from 'lodash.get';
 import lighthouse from 'lighthouse';
+import ReportGenerator from 'lighthouse/lighthouse-core/report/report-generator';
 import * as chromeLauncher from 'chrome-launcher';
 import AWS from 'aws-sdk';
 import config from './config';
@@ -8,6 +10,8 @@ import defaultOptions from './options';
 import upload from './helpers/upload';
 
 const PROTOCOL_TIMEOUT = 'PROTOCOL_TIMEOUT';
+const PSI_API_URL =
+  'https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed';
 
 const createTimeout = time =>
   new Promise(resolve => {
@@ -25,6 +29,7 @@ export default async ({
   options: customOptions,
   outputDirectory,
   updateReport,
+  psiKey,
   timeout,
   url
 }) => {
@@ -36,6 +41,12 @@ export default async ({
     throw new Error('Missing required params.');
   }
 
+  // the default config combined with overriding query params
+  const fullConfig = {
+    ...config,
+    ...customConfig
+  };
+
   const options = {
     ...defaultOptions,
     ...customOptions
@@ -46,28 +57,47 @@ export default async ({
   let chrome;
 
   try {
-    chrome = await chromeLauncher.launch({
-      chromeFlags: options.chromeFlags,
-      port: options.port
-    });
+    let results;
 
-    options.output = 'html';
+    // if we're getting results from the PageSpeed Insights API... else
+    // run Lighthouse directly
+    if (psiKey) {
+      const strategy =
+        fullConfig.settings.emulatedFormFactor === 'desktop'
+          ? 'DESKTOP'
+          : 'MOBILE';
+      const psiApiUrl = `${PSI_API_URL}?url=${url}&category=ACCESSIBILITY&category=BEST_PRACTICES&category=PERFORMANCE&category=PWA&category=SEO&strategy=${strategy}&key=${psiKey}`;
+      const psiResponse = await fetch(psiApiUrl);
+      const psiResults = await psiResponse.json();
 
-    // the default config combined with overriding query params
-    const fullConfig = {
-      ...config,
-      ...customConfig
-    };
+      if (psiResults.error) {
+        throw Error(psiResults.error);
+      }
 
-    const results = !timeout
-      ? await lighthouse(url, options, fullConfig)
-      : await Promise.race([
-          createTimeout(timeout),
-          lighthouse(url, options, fullConfig)
-        ]);
+      results = {
+        lhr: psiResults.lighthouseResult,
+        report: ReportGenerator.generateReportHtml(psiResults.lighthouseResult)
+      };
+    } else {
+      chrome = await chromeLauncher.launch({
+        chromeFlags: options.chromeFlags,
+        port: options.port
+      });
 
-    if (results === PROTOCOL_TIMEOUT) {
-      throw Error(PROTOCOL_TIMEOUT);
+      options.output = 'html';
+
+      results = !timeout
+        ? await lighthouse(url, options, fullConfig)
+        : await Promise.race([
+            createTimeout(timeout),
+            lighthouse(url, options, fullConfig)
+          ]);
+
+      if (results === PROTOCOL_TIMEOUT) {
+        throw Error(PROTOCOL_TIMEOUT);
+      }
+
+      await chrome.kill();
     }
 
     // a remote URL
@@ -84,7 +114,7 @@ export default async ({
       : updateReport(results.report);
 
     if (isS3) {
-      if (Bucket) {
+      if (Bucket && reportContent) {
         // upload to S3
         const s3Response = await upload({
           s3bucket: new AWS.S3({
@@ -141,8 +171,6 @@ export default async ({
       localReport = `${outputDirectory}/report-${Date.now()}.html`;
       fs.writeFileSync(localReport, reportContent);
     }
-
-    await chrome.kill();
 
     return {
       finalScreenshot,

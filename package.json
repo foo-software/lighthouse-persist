@@ -50,7 +50,8 @@
     "aws-sdk": "^2.533.0",
     "chrome-launcher": "^0.13.4",
     "lighthouse": "^6.5.0",
-    "lodash.get": "^4.4.2"
+    "lodash.get": "^4.4.2",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.0",

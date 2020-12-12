@@ -123,6 +123,12 @@ There are two different ways to persist reports. Both ways have required params.
     <td><code>undefined</code></td>
   </tr>
   <tr>
+    <td><code>psiKey</code></td>
+    <td>To run Lighthouse via PageSpeed Insights API, provide your API key. <strong>WARNING</strong>: some Lighthouse options are not available with PageSpeed Insights (example: <code>extraHeaders</code>). <code>strategy</code> will be derived from <code>config.settings.emulatedFormFactor</code> and defaults to <code>mobile</code>.</td>
+    <td><code>string</code></td>
+    <td><code>undefined</code></td>
+  </tr>
+  <tr>
     <td><code>url</code></td>
     <td>The URL to run audits against.</td>
     <td><code>string</code></td>
