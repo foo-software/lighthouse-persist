@@ -22,7 +22,9 @@ npm install @foo-software/lighthouse-persist
 
 ## Usage
 
-Save report to local directory.
+Below are a few standard ways of using this module. See [parametes](#parameters) and [response payload](#response-payload) for more details.
+
+## Save Report to Local Directory.
 
 ```javascript
 const path = require('path');
@@ -40,7 +42,7 @@ const lighthousePersist = require('@foo-software/lighthouse-persist').default;
 })();
 ```
 
-Upload report to S3.
+## Upload Report to S3
 
 ```javascript
 const lighthousePersist = require('@foo-software/lighthouse-persist').default;
@@ -58,7 +60,34 @@ const lighthousePersist = require('@foo-software/lighthouse-persist').default;
 })();
 ```
 
-See [Response Payload](#response-payload) to find out what `report` and `result` are.
+## Run Lighthouse with PageSpeed Insights API
+
+There are a few benefits of running Lighthouse via [PageSpeed Insights API](https://developers.google.com/speed/docs/insights/rest/v5/pagespeedapi/runpagespeed).
+
+1. Offload resource consumption to Google 🙌! If you haven't noticed [Lighthouse memory and CPU consumption is expensive](https://github.com/GoogleChrome/lighthouse/issues/11343).
+2. Get consistent results by running Lighthouse in a stable, consistent environment.
+3. Get additional data like `loadingExperience` and `originLoadingExperience` from the [CrUX API](https://web.dev/chrome-ux-report-api/) (under the hood).
+
+The downside is that you won't have all the configuration options by not using Lighthouse directly, like specific network settings and `extraHeaders`. But in most cases, the default settings are all you need. You can still target `mobile` or `desktop` via `strategy`. If using `@foo-software/lighthouse-persist` `strategy` will be derived from `config.settings.emulatedFormFactor` and defaults to `mobile`.
+
+This module will get results from PageSpeed Insights API, and generate an HTML (optionally), and provide the result consistently with the other examples. The only mandatory parameter to run with PageSpeed Insights API is `psiKey`.
+
+```javascript
+const lighthousePersist = require('@foo-software/lighthouse-persist').default;
+
+(async () => {
+  const { report, result } = await lighthousePersist({
+    url: 'https://www.foo.software',
+    awsAccessKeyId: 'abc123',
+    awsBucket: 'myBucket',
+    awsRegion: 'us-east-1',
+    awsSecretAccessKey: 'def456',
+    psiKey: 'ghi789',
+  });
+
+  console.log({ loadingExperience, report, result });
+})();
+```
 
 ## Parameters
 
@@ -168,7 +197,7 @@ The result of calling the default function with the parameters above is an objec
   </tr>
   <tr>
     <td><code>originLoadingExperience</code></td>
-    <td>If <code>psiKey</code> was specified and the PageSpeed Insights response includes <code>originLoadingExperience<</code> as documented, then this will be populated with an object per the shape described in the <a href="https://developers.google.com/speed/docs/insights/rest/v5/pagespeedapi/runpagespeed#response-body">documentation</a>. It's possible this data will not exist for some URLs. Read more about the <a href="https://web.dev/chrome-ux-report-api/">CrUX API</a>.</td>
+    <td>If <code>psiKey</code> was specified and the PageSpeed Insights response includes <code>originLoadingExperience</code> as documented, then this will be populated with an object per the shape described in the <a href="https://developers.google.com/speed/docs/insights/rest/v5/pagespeedapi/runpagespeed#response-body">documentation</a>. It's possible this data will not exist for some URLs. Read more about the <a href="https://web.dev/chrome-ux-report-api/">CrUX API</a>.</td>
     <td><code>object</code></td>
   </tr>
   <tr>
