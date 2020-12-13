@@ -209,8 +209,8 @@ The result of calling the default function with the parameters above is an objec
 
 ## Taking it to Another Level
 
-If you're interested running Lighthouse performance audits on your web pages automatically - check out [www.foo.software](https://www.foo.software). Foo runs audits automatically, stores results and provides charts in a timeline view. You can also trigger runs via Foo's public REST API and tag (with a build number for example). See [video demos about all of this here](https://www.foo.software/videos).
+If you're interested running Lighthouse audits on your web pages automatically - check out [www.foo.software](https://www.foo.software). Foo runs audits automatically, stores results and provides charts in a timeline view. You can also trigger runs via Foo's public REST API and tag (with a build number for example).
 
 ## Credits
 
-> <img src="https://lighthouse-check.s3.amazonaws.com/images/logo-simple-blue-light-512.png" width="100" height="100" align="left" /> This package was brought to you by [Foo - a website quality monitoring tool](https://www.foo.software). Create a **free account** with standard Lighthouse testing. Automatic website quality montoring real time notifications via Slack integration.
+> <img src="https://lighthouse-check.s3.amazonaws.com/images/logo-simple-blue-light-512.png" width="100" height="100" align="left" /> This package was brought to you by [Foo - a website quality monitoring tool](https://www.foo.software). Automatically test and monitor website performance, SEO and accessibility with Lighthouse. Analyze historical records of Lighthouse tests with automated monitoring. Report with confidence about SEO and performance improvements to stay on top of changes when they happen!
