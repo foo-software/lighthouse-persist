@@ -152,6 +152,11 @@ The result of calling the default function with the parameters above is an objec
     <td><code>string</code></td>
   </tr>
   <tr>
+    <td><code>loadingExperience</code></td>
+    <td>If <code>psiKey</code> was specified and the PageSpeed Insights response includes <code>loadingExperience</code> as documented, then this will be populated with an object per the shape described in the <a href="https://developers.google.com/speed/docs/insights/rest/v5/pagespeedapi/runpagespeed#response-body">documentation</a>. It's possible this data will not exist for some URLs. Read more about the <a href="https://web.dev/chrome-ux-report-api/">CrUX API</a>.</td>
+    <td><code>object</code></td>
+  </tr>
+  <tr>
     <td><code>localReport</code></td>
     <td>A local path to the report (if applicable).</td>
     <td><code>string</code></td>
@@ -159,6 +164,11 @@ The result of calling the default function with the parameters above is an objec
   <tr>
     <td><code>result</code></td>
     <td>A comprehensive result - the equivalent of what is returned when using the <code>lighthouse</code> module directly.</td>
+    <td><code>object</code></td>
+  </tr>
+  <tr>
+    <td><code>originLoadingExperience</code></td>
+    <td>If <code>psiKey</code> was specified and the PageSpeed Insights response includes <code>originLoadingExperience<</code> as documented, then this will be populated with an object per the shape described in the <a href="https://developers.google.com/speed/docs/insights/rest/v5/pagespeedapi/runpagespeed#response-body">documentation</a>. It's possible this data will not exist for some URLs. Read more about the <a href="https://web.dev/chrome-ux-report-api/">CrUX API</a>.</td>
     <td><code>object</code></td>
   </tr>
   <tr>

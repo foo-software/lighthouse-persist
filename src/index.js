@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import fs from 'fs';
 import get from 'lodash.get';
 import lighthouse from 'lighthouse';
@@ -8,10 +7,9 @@ import AWS from 'aws-sdk';
 import config from './config';
 import defaultOptions from './options';
 import upload from './helpers/upload';
+import getPageSpeedInsightsApiResult from './helpers/getPageSpeedInsightsApiResult';
 
 const PROTOCOL_TIMEOUT = 'PROTOCOL_TIMEOUT';
-const PSI_API_URL =
-  'https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed';
 
 const createTimeout = time =>
   new Promise(resolve => {
@@ -58,6 +56,8 @@ export default async ({
 
   try {
     let results;
+    let loadingExperience;
+    let originLoadingExperience;
 
     // if we're getting results from the PageSpeed Insights API... else
     // run Lighthouse directly
@@ -66,9 +66,11 @@ export default async ({
         fullConfig.settings.emulatedFormFactor === 'desktop'
           ? 'DESKTOP'
           : 'MOBILE';
-      const psiApiUrl = `${PSI_API_URL}?url=${url}&category=ACCESSIBILITY&category=BEST_PRACTICES&category=PERFORMANCE&category=PWA&category=SEO&strategy=${strategy}&key=${psiKey}`;
-      const psiResponse = await fetch(psiApiUrl);
-      const psiResults = await psiResponse.json();
+      const psiResults = await getPageSpeedInsightsApiResult({
+        psiKey,
+        strategy,
+        url
+      });
 
       if (psiResults.error) {
         throw Error(psiResults.error.message);
@@ -78,6 +80,14 @@ export default async ({
         lhr: psiResults.lighthouseResult,
         report: ReportGenerator.generateReportHtml(psiResults.lighthouseResult)
       };
+
+      if (psiResults.loadingExperience) {
+        loadingExperience = psiResults.loadingExperience;
+      }
+
+      if (psiResults.originLoadingExperience) {
+        originLoadingExperience = psiResults.originLoadingExperience;
+      }
     } else {
       chrome = await chromeLauncher.launch({
         chromeFlags: options.chromeFlags,
@@ -174,7 +184,9 @@ export default async ({
 
     return {
       finalScreenshot,
+      loadingExperience,
       localReport,
+      originLoadingExperience,
       result: JSON.parse(JSON.stringify(results.lhr)),
       report
     };
