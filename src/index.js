@@ -71,7 +71,7 @@ export default async ({
       const psiResults = await psiResponse.json();
 
       if (psiResults.error) {
-        throw Error(psiResults.error);
+        throw Error(psiResults.error.message);
       }
 
       results = {
