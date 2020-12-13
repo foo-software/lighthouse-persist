@@ -70,7 +70,7 @@ There are a few benefits of running Lighthouse via [PageSpeed Insights API](http
 
 The downside is that you won't have all the configuration options by not using Lighthouse directly, like specific network settings and `extraHeaders`. But in most cases, the default settings are all you need. You can still target `mobile` or `desktop` via `strategy`. If using `@foo-software/lighthouse-persist` `strategy` will be derived from `config.settings.emulatedFormFactor` and defaults to `mobile`.
 
-This module will get results from PageSpeed Insights API, and generate an HTML (optionally), and provide the result consistently with the other examples. The only mandatory parameter to run with PageSpeed Insights API is `psiKey`.
+This module will get results from PageSpeed Insights API, and generate an HTML report (optionally), and provide the result consistently with the other examples. The only mandatory parameter to run with PageSpeed Insights API is `psiKey`.
 
 ```javascript
 const lighthousePersist = require('@foo-software/lighthouse-persist').default;
