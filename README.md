@@ -12,7 +12,7 @@ See a full [example report here](https://s3.amazonaws.com/foo-software-html/ligh
 - Runs all Lighthouse audits - Performance, SEO, progressive web app, best practices. Parameters support custom Lighthouse options and configuration.
 - Extracts content of the HTML report, populates it in a file and saves locally and / or uploads to the AWS S3 bucket specified by parameters.
 - Exposes the result similar to that of using `lighthouse` directly.
-- Uses `lighthouse@5.1.0` under the hood.
+- Uses the latest major version of Lighthouse under the hood.
 
 ## Install
 
