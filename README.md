@@ -76,7 +76,7 @@ This module will get results from PageSpeed Insights API, and generate an HTML r
 const lighthousePersist = require('@foo-software/lighthouse-persist').default;
 
 (async () => {
-  const { report, result } = await lighthousePersist({
+  const { loadingExperience, report, result } = await lighthousePersist({
     url: 'https://www.foo.software',
     awsAccessKeyId: 'abc123',
     awsBucket: 'myBucket',
