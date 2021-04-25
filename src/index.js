@@ -7,6 +7,7 @@ import AWS from 'aws-sdk';
 import config from './config';
 import defaultOptions from './options';
 import upload from './helpers/upload';
+import getOpportunities from './helpers/getOpportunities';
 import getPageSpeedInsightsApiResult from './helpers/getPageSpeedInsightsApiResult';
 
 const PROTOCOL_TIMEOUT = 'PROTOCOL_TIMEOUT';
@@ -24,6 +25,7 @@ export default async ({
   awsSecretAccessKey: secretAccessKey,
   config: customConfig,
   finalScreenshotAwsBucket,
+  isExperimental,
   options: customOptions,
   outputDirectory,
   updateReport,
@@ -182,13 +184,34 @@ export default async ({
       fs.writeFileSync(localReport, reportContent);
     }
 
+    const parsedResult = JSON.parse(JSON.stringify(results.lhr));
+
+    let opportunities = [];
+    if (
+      isExperimental &&
+      get(parsedResult, 'categories.performance.auditRefs')
+    ) {
+      try {
+        opportunities = getOpportunities(parsedResult);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     return {
       finalScreenshot,
       loadingExperience,
       localReport,
       originLoadingExperience,
-      result: JSON.parse(JSON.stringify(results.lhr)),
-      report
+      result: parsedResult,
+      report,
+
+      // experimental features
+      ...(!isExperimental
+        ? {}
+        : {
+            opportunities
+          })
     };
   } catch (error) {
     // make sure we kill chrome
