@@ -49,7 +49,7 @@
   "dependencies": {
     "aws-sdk": "^2.533.0",
     "chrome-launcher": "^0.13.4",
-    "lighthouse": "^7.3.0",
+    "lighthouse": "7.3.0",
     "lodash.get": "^4.4.2",
     "node-fetch": "^2.6.1"
   },
