@@ -61,13 +61,15 @@ export default async ({
     let loadingExperience;
     let originLoadingExperience;
 
+    // this changed in Lighthouse 7, but we should try to support those
+    // who don't know about this obscure change.
+    const formFactor =
+      fullConfig.settings.formFactor || fullConfig.settings.emulatedFormFactor;
+
     // if we're getting results from the PageSpeed Insights API... else
     // run Lighthouse directly
     if (psiKey) {
-      const strategy =
-        fullConfig.settings.emulatedFormFactor === 'desktop'
-          ? 'DESKTOP'
-          : 'MOBILE';
+      const strategy = formFactor === 'desktop' ? 'DESKTOP' : 'MOBILE';
       const psiResults = await getPageSpeedInsightsApiResult({
         psiKey,
         strategy,
