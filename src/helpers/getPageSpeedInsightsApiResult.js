@@ -8,7 +8,6 @@ export default async ({ psiKey, strategy, url }) => {
   const psiApiUrl = `${PSI_API_URL}?url=${encodeURIComponent(
     url
   )}&category=ACCESSIBILITY&category=BEST_PRACTICES&category=PERFORMANCE&category=PWA&category=SEO&strategy=${strategy}&key=${psiKey}`;
-  console.log('psiApiUrl', psiApiUrl);
   const psiResponse = await fetch(psiApiUrl);
   return psiResponse.json();
 };

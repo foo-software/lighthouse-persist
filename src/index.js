@@ -75,7 +75,6 @@ export default async ({
         strategy,
         url
       });
-      console.log('psiResults', psiResults);
 
       if (psiResults.error) {
         throw Error(psiResults.error.message);
