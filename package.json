@@ -27,6 +27,9 @@
   "jest": {
     "modulePathIgnorePatterns": [
       "<rootDir>/dist/"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/(?!(lighthouse)/)"
     ]
   },
   "lint-staged": {
@@ -48,8 +51,8 @@
   },
   "dependencies": {
     "aws-sdk": "^2.533.0",
-    "chrome-launcher": "^0.14.0",
-    "lighthouse": "^8.0.0",
+    "chrome-launcher": "^0.14.1",
+    "lighthouse": "8.5.1",
     "lodash.get": "^4.4.2",
     "node-fetch": "^2.6.1"
   },
