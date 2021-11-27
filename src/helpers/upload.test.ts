@@ -2,7 +2,7 @@ import upload from './upload';
 
 describe('upload', () => {
   const params = {
-    hello: 'world'
+    hello: 'world',
   };
 
   it('should resolve when data exists', async () => {
@@ -10,10 +10,10 @@ describe('upload', () => {
     const response = await upload({
       params,
       s3bucket: {
-        upload: (params, callback) => {
+        upload: (params: any, callback: any) => {
           callback(null, data);
-        }
-      }
+        },
+      },
     });
 
     expect(response).toEqual(data);
@@ -21,18 +21,15 @@ describe('upload', () => {
 
   it('should reject when error exists', async () => {
     const rejectionError = Error('something went wrong');
-
-    try {
-      await upload({
+    await expect(
+      upload({
         params,
         s3bucket: {
-          upload: (params, callback) => {
+          upload: (params: any, callback: any) => {
             callback(rejectionError, null);
-          }
-        }
-      });
-    } catch (error) {
-      expect(error).toEqual(rejectionError);
-    }
+          },
+        },
+      }),
+    ).rejects.toThrow('something went wrong');
   });
 });
