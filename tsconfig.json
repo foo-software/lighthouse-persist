@@ -6,13 +6,13 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "module": "es2020",
-    "moduleResolution": "node",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "outDir": "./dist/esm",
     "rootDir": "./src",
     "sourceMap": true,
     "strict": true,
-    "target": "es2018"
+    "target": "esnext"
   },
   "exclude": ["node_modules"],
   "include": ["**/*.ts"]

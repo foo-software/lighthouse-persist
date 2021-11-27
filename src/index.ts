@@ -202,7 +202,8 @@ export default async ({
     let opportunities = [];
     if (isExperimental && parsedResult?.categories?.performance?.auditRefs) {
       try {
-        opportunities = getOpportunities(parsedResult);
+        opportunities = await getOpportunities(parsedResult);
+        console.log('opportunities', opportunities);
       } catch (error) {
         console.error(error);
       }
