@@ -2,8 +2,7 @@
   "name": "@foo-software/lighthouse-persist",
   "version": "3.0.4",
   "description": "A tool for persisting Lighthouse audit results used for website performance monitoring and analysis.",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "main": "./dist/index.js",
   "engines": {
     "node": ">=14.15"
   },
@@ -44,7 +43,7 @@
   },
   "scripts": {
     "build": "npm run clean && npm run build:js",
-    "build:js": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json",
+    "build:js": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
     "lint": "eslint . --ext .ts",
     "prepublish": "npm run build",

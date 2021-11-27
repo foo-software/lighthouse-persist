@@ -1,6 +1,6 @@
 jest.mock('./helpers/getPageSpeedInsightsApiResult');
 
-import lighthousePersist, { ReportGenerator } from '.';
+import lighthousePersist, { ReportGenerator } from './lighthousePersist';
 import getPageSpeedInsightsApiResult from './helpers/getPageSpeedInsightsApiResult';
 
 jest.mock('chrome-launcher', () => ({
