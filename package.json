@@ -47,6 +47,7 @@
     "build:js": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json",
     "clean": "rimraf dist",
     "lint": "eslint . --ext .ts",
+    "prepublish": "npm run build",
     "test": "jest"
   },
   "dependencies": {
