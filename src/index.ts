@@ -1,8 +1,9 @@
 import fs from 'fs';
 import lighthouse from 'lighthouse';
-import ReportGenerator from 'lighthouse-legacy/lighthouse-core/report/report-generator';
+import LighthouseResultInterface from 'lighthouse/types/lhr/lhr';
 import * as chromeLauncher from 'chrome-launcher';
 import AWS from 'aws-sdk';
+import ReportGenerator from 'lighthouse/report/generator/report-generator';
 import config from './config';
 import defaultOptions from './options';
 import upload from './helpers/upload';
@@ -17,6 +18,74 @@ const createTimeout = (time: number) =>
   });
 
 export { ReportGenerator };
+
+interface OpportunitiesInterface {
+  id: string;
+  result: {
+    description: string;
+    details: {
+      headings: {
+        key: string;
+        label: string;
+        valueType: string;
+      }[];
+      items: {
+        fromProtocol: boolean;
+        isCrossOrigin: boolean;
+        node: any;
+        totalBytes: number;
+        url: string;
+        wastedBytes: number;
+        wastedWebpBytes: number;
+      }[];
+      overallSavingsMs: number;
+      overallSavingsBytes: number;
+      type: string;
+    };
+    displayValue: string;
+    id: string;
+    numericUnit: string;
+    numericValue: number;
+    rating: string;
+    score: number;
+    scoreDisplayMode: string;
+    title: string;
+    warnings: string[];
+  };
+  weight: number;
+}
+
+interface LoadingExperienceMetricInterface {
+  percentile: number;
+  distributions: {
+    max: number;
+    min: number;
+    proportion: number;
+  }[];
+  category: string;
+}
+
+interface LoadingExperienceInterface {
+  id: string;
+  initial_url: string;
+  metrics: {
+    CUMULATIVE_LAYOUT_SHIFT_SCORE: LoadingExperienceMetricInterface;
+    FIRST_CONTENTFUL_PAINT_MS: LoadingExperienceMetricInterface;
+    FIRST_INPUT_DELAY_MS: LoadingExperienceMetricInterface;
+    LARGEST_CONTENTFUL_PAINT_MS: LoadingExperienceMetricInterface;
+  };
+  overall_category: string;
+}
+
+interface LighthousePersistResultInterface {
+  finalScreenshot?: string;
+  loadingExperience?: LoadingExperienceInterface;
+  localReport?: string;
+  originLoadingExperience?: LoadingExperienceInterface;
+  result: LighthouseResultInterface;
+  report?: string;
+  opportunities?: OpportunitiesInterface[];
+}
 
 // https://github.com/GoogleChrome/lighthouse/blob/master/docs/readme.md#using-programmatically
 export default async ({
@@ -47,7 +116,7 @@ export default async ({
   psiKey?: string;
   timeout?: number;
   url: string;
-}) => {
+}): Promise<LighthousePersistResultInterface> => {
   // will upload to S3?
   const isS3 = !!(accessKeyId && region && secretAccessKey);
 
@@ -203,7 +272,6 @@ export default async ({
     if (isExperimental && parsedResult?.categories?.performance?.auditRefs) {
       try {
         opportunities = await getOpportunities(parsedResult);
-        console.log('opportunities', opportunities);
       } catch (error) {
         console.error(error);
       }

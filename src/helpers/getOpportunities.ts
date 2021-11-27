@@ -1,11 +1,13 @@
 // a bit of a hack until we only support ES Modules
+// note the key here:
+// https://github.com/microsoft/TypeScript/pull/44501#issue-914346744
 export const loadUtil = async () => {
   const module = await import('lighthouse/report/renderer/util.js');
   return module.Util;
 };
 
 // inspired by:
-// https://github.com/GoogleChrome/lighthouse/blob/2e9c3c9b5f7d75b39be9d1e2ba116d49cf811f81/lighthouse-core/report/html/renderer/performance-category-renderer.js#L97
+// https://github.com/GoogleChrome/lighthouse/blob/8100b8034507e679c95b2fab5ab48965875443b6/report/renderer/performance-category-renderer.js#L98
 const getWastedMs = (audit: any) => {
   if (audit.result.details && audit.result.details.type === 'opportunity') {
     const details = audit.result.details;
