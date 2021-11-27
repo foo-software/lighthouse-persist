@@ -52,7 +52,7 @@ const { lighthousePersist } = require('@foo-software/lighthouse-persist');
 ## Upload Report to S3
 
 ```javascript
-const lighthousePersist = require('@foo-software/lighthouse-persist').default;
+const { lighthousePersist } = require('@foo-software/lighthouse-persist');
 
 (async () => {
   const { report, result } = await lighthousePersist({
