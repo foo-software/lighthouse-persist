@@ -1,6 +1,6 @@
-jest.mock('node-fetch');
+jest.mock('./fetch');
 
-import fetch from 'node-fetch';
+import fetch from './fetch';
 import getPageSpeedInsightsApiResult from './getPageSpeedInsightsApiResult';
 
 jest.mock('lighthouse', () => ({
