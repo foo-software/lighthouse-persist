@@ -1,5 +1,4 @@
 import fs from 'fs';
-import get from 'lodash.get';
 import lighthouse from 'lighthouse';
 import ReportGenerator from 'lighthouse-legacy/lighthouse-core/report/report-generator';
 import * as chromeLauncher from 'chrome-launcher';
@@ -12,7 +11,7 @@ import getPageSpeedInsightsApiResult from './helpers/getPageSpeedInsightsApiResu
 
 const PROTOCOL_TIMEOUT = 'PROTOCOL_TIMEOUT';
 
-const createTimeout = time =>
+const createTimeout = (time: number) =>
   new Promise(resolve => {
     setTimeout(resolve, time, PROTOCOL_TIMEOUT);
   });
@@ -33,7 +32,21 @@ export default async ({
   updateReport,
   psiKey,
   timeout,
-  url
+  url,
+}: {
+  awsAccessKeyId?: string;
+  awsBucket?: string;
+  awsRegion?: string;
+  awsSecretAccessKey?: string;
+  config?: any;
+  finalScreenshotAwsBucket?: string;
+  isExperimental?: boolean;
+  options?: any;
+  outputDirectory?: string;
+  updateReport?: (input: any) => void;
+  psiKey?: string;
+  timeout?: number;
+  url: string;
 }) => {
   // will upload to S3?
   const isS3 = !!(accessKeyId && region && secretAccessKey);
@@ -46,12 +59,12 @@ export default async ({
   // the default config combined with overriding query params
   const fullConfig = {
     ...config,
-    ...customConfig
+    ...customConfig,
   };
 
   const options = {
     ...defaultOptions,
-    ...customOptions
+    ...customOptions,
   };
 
   // we need to kill chrome if something goes wrong, so we pull it up
@@ -75,7 +88,7 @@ export default async ({
       const psiResults = await getPageSpeedInsightsApiResult({
         psiKey,
         strategy,
-        url
+        url,
       });
 
       if (psiResults.error) {
@@ -84,7 +97,7 @@ export default async ({
 
       results = {
         lhr: psiResults.lighthouseResult,
-        report: ReportGenerator.generateReportHtml(psiResults.lighthouseResult)
+        report: ReportGenerator.generateReportHtml(psiResults.lighthouseResult),
       };
 
       if (psiResults.loadingExperience) {
@@ -97,7 +110,7 @@ export default async ({
     } else {
       chrome = await chromeLauncher.launch({
         chromeFlags: options.chromeFlags,
-        port: options.port
+        port: options.port,
       });
 
       options.output = 'html';
@@ -106,7 +119,7 @@ export default async ({
         ? await lighthouse(url, options, fullConfig)
         : await Promise.race([
             createTimeout(timeout),
-            lighthouse(url, options, fullConfig)
+            lighthouse(url, options, fullConfig),
           ]);
 
       if (results === PROTOCOL_TIMEOUT) {
@@ -135,39 +148,35 @@ export default async ({
         const s3Response = await upload({
           s3bucket: new AWS.S3({
             accessKeyId,
-            Bucket,
             region,
-            secretAccessKey
+            secretAccessKey,
           }),
           params: {
             ACL: 'public-read',
             Body: reportContent,
             Bucket,
             ContentType: 'text/html',
-            Key: `report-${Date.now()}.html`
-          }
+            Key: `report-${Date.now()}.html`,
+          },
         });
 
-        report = s3Response.Location;
+        report = s3Response?.Location;
       }
 
       if (finalScreenshotAwsBucket) {
-        const finalScreenshotData = get(
-          results,
-          `lhr.audits['final-screenshot'].details.data`
-        );
+        const finalScreenshotData =
+          results?.lhr?.audits?.['final-screenshot']?.details?.data;
 
         if (finalScreenshotData) {
           const buffer = Buffer.from(
             finalScreenshotData.replace('data:image/jpeg;base64,', ''),
-            'base64'
+            'base64',
           );
           const s3Response = await upload({
             s3bucket: new AWS.S3({
               accessKeyId,
-              Bucket,
               region,
-              secretAccessKey
+              secretAccessKey,
             }),
             params: {
               ACL: 'public-read',
@@ -175,8 +184,8 @@ export default async ({
               Bucket: finalScreenshotAwsBucket,
               ContentEncoding: 'base64',
               ContentType: 'image/jpeg',
-              Key: `final-screenshot-${Date.now()}.jpg`
-            }
+              Key: `final-screenshot-${Date.now()}.jpg`,
+            },
           });
           finalScreenshot = s3Response.Location;
         }
@@ -191,10 +200,7 @@ export default async ({
     const parsedResult = JSON.parse(JSON.stringify(results.lhr));
 
     let opportunities = [];
-    if (
-      isExperimental &&
-      get(parsedResult, 'categories.performance.auditRefs')
-    ) {
+    if (isExperimental && parsedResult?.categories?.performance?.auditRefs) {
       try {
         opportunities = getOpportunities(parsedResult);
       } catch (error) {
@@ -214,8 +220,8 @@ export default async ({
       ...(!isExperimental
         ? {}
         : {
-            opportunities
-          })
+            opportunities,
+          }),
     };
   } catch (error) {
     // make sure we kill chrome

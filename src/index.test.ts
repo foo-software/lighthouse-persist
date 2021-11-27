@@ -5,8 +5,8 @@ import getPageSpeedInsightsApiResult from './helpers/getPageSpeedInsightsApiResu
 
 jest.mock('chrome-launcher', () => ({
   launch: jest.fn().mockReturnValue({
-    kill: jest.fn()
-  })
+    kill: jest.fn(),
+  }),
 }));
 
 jest.mock('lighthouse', () => ({
@@ -14,18 +14,18 @@ jest.mock('lighthouse', () => ({
   default: jest.fn().mockReturnValue({
     lhr: {
       categories: { performance: {} },
-      mock: true
+      mock: true,
     },
-    report: '<h1>hello world</h1>'
-  })
+    report: '<h1>hello world</h1>',
+  }),
 }));
 
 jest.mock('./helpers/upload', () => ({
   __esModule: true,
   default: jest.fn().mockReturnValue({
     Location:
-      'https://s3.amazonaws.com/foo-software-html/lighthouse-report-example.html'
-  })
+      'https://s3.amazonaws.com/foo-software-html/lighthouse-report-example.html',
+  }),
 }));
 
 describe('@foo-software/lighthouse-persist', () => {
@@ -39,23 +39,23 @@ describe('@foo-software/lighthouse-persist', () => {
       awsAccessKeyId: 'abc123',
       awsBucket: 'myBucket',
       awsRegion: 'us-east-1',
-      awsSecretAccessKey: 'def456'
+      awsSecretAccessKey: 'def456',
     });
 
     expect(response).toMatchSnapshot();
   });
 
   it('should return an expected response payload when "psiKey" is provided', async () => {
-    getPageSpeedInsightsApiResult.mockReturnValue({
+    (getPageSpeedInsightsApiResult as jest.Mock).mockReturnValue({
       lighthouseResult: {
-        mock: true
+        mock: true,
       },
       loadingExperience: {
-        mock: true
+        mock: true,
       },
       originLoadingExperience: {
-        mock: true
-      }
+        mock: true,
+      },
     });
 
     const response = await lighthousePersist({
@@ -64,7 +64,7 @@ describe('@foo-software/lighthouse-persist', () => {
       awsBucket: 'myBucket',
       awsRegion: 'us-east-1',
       awsSecretAccessKey: 'def456',
-      psiKey: 'abc123'
+      psiKey: 'abc123',
     });
 
     expect(response).toMatchSnapshot();
