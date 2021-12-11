@@ -96,6 +96,7 @@ export default async ({
   config: customConfig,
   finalScreenshotAwsBucket,
   isExperimental,
+  launchedChrome,
   options: customOptions,
   outputDirectory,
   updateReport,
@@ -110,6 +111,7 @@ export default async ({
   config?: any;
   finalScreenshotAwsBucket?: string;
   isExperimental?: boolean;
+  launchedChrome?: any;
   options?: any;
   outputDirectory?: string;
   updateReport?: (input: any) => void;
@@ -138,7 +140,7 @@ export default async ({
 
   // we need to kill chrome if something goes wrong, so we pull it up
   // into the function scope to be accessible in the catch block.
-  let chrome;
+  let chrome = launchedChrome;
 
   try {
     let results;
@@ -177,10 +179,12 @@ export default async ({
         originLoadingExperience = psiResults.originLoadingExperience;
       }
     } else {
-      chrome = await chromeLauncher.launch({
-        chromeFlags: options.chromeFlags,
-        port: options.port,
-      });
+      if (!chrome) {
+        chrome = await chromeLauncher.launch({
+          chromeFlags: options.chromeFlags,
+          port: options.port,
+        });
+      }
 
       options.output = 'html';
 
