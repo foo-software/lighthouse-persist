@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`config should match snapshot 1`] = `
-Object {
+{
   "extends": "lighthouse:default",
-  "settings": Object {
+  "settings": {
     "maxWaitForFcp": 15000,
     "maxWaitForLoad": 35000,
-    "skipAudits": Array [
+    "skipAudits": [
       "uses-http2",
     ],
   },
