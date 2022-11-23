@@ -30,13 +30,22 @@
     "url": "https://github.com/foo-software/lighthouse-persist/issues"
   },
   "homepage": "https://github.com/foo-software/lighthouse-persist#readme",
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "prettier --single-quote --write",
+      "npm run lint"
+    ],
+    "*.ts": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
+  },
   "scripts": {
     "build": "npm run clean && npm run build:js",
     "build:js": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
     "lint": "eslint . --ext .ts",
     "prepublish": "npm run build",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@types/express": "^4.17.14",
