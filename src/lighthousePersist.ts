@@ -13,7 +13,7 @@ import getPageSpeedInsightsApiResult from './helpers/getPageSpeedInsightsApiResu
 const PROTOCOL_TIMEOUT = 'PROTOCOL_TIMEOUT';
 
 const createTimeout = (time: number) =>
-  new Promise(resolve => {
+  new Promise((resolve) => {
     setTimeout(resolve, time, PROTOCOL_TIMEOUT);
   });
 
@@ -103,6 +103,7 @@ export default async ({
   psiKey,
   timeout,
   url,
+  verbose,
 }: {
   awsAccessKeyId?: string;
   awsBucket?: string;
@@ -118,6 +119,7 @@ export default async ({
   psiKey?: string;
   timeout?: number;
   url: string;
+  verbose?: boolean;
 }): Promise<LighthousePersistResultInterface> => {
   // will upload to S3?
   const isS3 = !!(accessKeyId && region && secretAccessKey);
@@ -184,6 +186,10 @@ export default async ({
           chromeFlags: options.chromeFlags,
           port: options.port,
         });
+      }
+
+      if (verbose) {
+        console.log('chrome pid', chrome.pid);
       }
 
       options.output = 'html';
