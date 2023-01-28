@@ -10,13 +10,6 @@ import upload from './helpers/upload';
 import getOpportunities from './helpers/getOpportunities';
 import getPageSpeedInsightsApiResult from './helpers/getPageSpeedInsightsApiResult';
 
-const PROTOCOL_TIMEOUT = 'PROTOCOL_TIMEOUT';
-
-const createTimeout = (time: number) =>
-  new Promise((resolve) => {
-    setTimeout(resolve, time, PROTOCOL_TIMEOUT);
-  });
-
 export { ReportGenerator };
 
 interface OpportunitiesInterface {
@@ -86,6 +79,13 @@ interface LighthousePersistResultInterface {
   report?: string;
   opportunities?: OpportunitiesInterface[];
 }
+
+const PROTOCOL_TIMEOUT = 'PROTOCOL_TIMEOUT';
+
+const createTimeout = (time: number) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, time, PROTOCOL_TIMEOUT);
+  });
 
 // https://github.com/GoogleChrome/lighthouse/blob/master/docs/readme.md#using-programmatically
 export default async ({
