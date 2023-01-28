@@ -188,6 +188,10 @@ export default async ({
         });
       }
 
+      if (verbose) {
+        console.log('Chrome running on port', chrome.port);
+      }
+
       options.output = 'html';
 
       results = !timeout
