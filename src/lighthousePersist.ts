@@ -80,48 +80,12 @@ interface LighthousePersistResultInterface {
   opportunities?: OpportunitiesInterface[];
 }
 
-const GET_CHROME_PID_TIMEOUT_MILLISECONDS = 1000;
-const GET_CHROME_PID_TIMEOUT_SECONDS =
-  GET_CHROME_PID_TIMEOUT_MILLISECONDS / 1000;
-const MAX_GET_CHROME_PID_RETRIES = 10;
 const PROTOCOL_TIMEOUT = 'PROTOCOL_TIMEOUT';
 
 const createTimeout = (time: number) =>
   new Promise((resolve) => {
     setTimeout(resolve, time, PROTOCOL_TIMEOUT);
   });
-
-export const delay = (timeout: number) =>
-  new Promise((resolve) => setTimeout(resolve, timeout));
-
-// returns the Chrome process pid with retry logic
-const getChromePid = async ({
-  chrome,
-  retries = 0,
-  verbose,
-}: {
-  chrome: chromeLauncher.LaunchedChrome;
-  retries?: number;
-  verbose?: boolean;
-}): Promise<number | undefined> => {
-  if (typeof chrome.pid === 'number') {
-    return chrome.pid;
-  }
-  if (verbose) {
-    console.log('failed to get pid on retry', retries);
-  }
-  if (retries < MAX_GET_CHROME_PID_RETRIES) {
-    await delay(GET_CHROME_PID_TIMEOUT_MILLISECONDS);
-    if (verbose) {
-      console.log('trying again...');
-    }
-    return getChromePid({
-      chrome,
-      retries: retries + 1,
-    });
-  }
-  return;
-};
 
 // https://github.com/GoogleChrome/lighthouse/blob/master/docs/readme.md#using-programmatically
 export default async ({
@@ -224,17 +188,8 @@ export default async ({
         });
       }
 
-      // ensure we actually have a running Chrome process
-      const chromePid = await getChromePid({
-        chrome,
-        verbose,
-      });
-
-      if (!chromePid) {
-        throw new Error(
-          `failed to find a running Chrome process with ${MAX_GET_CHROME_PID_RETRIES} ` +
-            `retries each with a ${GET_CHROME_PID_TIMEOUT_SECONDS} second delay`,
-        );
+      if (verbose) {
+        console.log('chrome pid', chrome.pid);
       }
 
       options.output = 'html';
