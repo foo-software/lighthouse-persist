@@ -6,6 +6,7 @@ import getPageSpeedInsightsApiResult from './helpers/getPageSpeedInsightsApiResu
 jest.mock('chrome-launcher', () => ({
   launch: jest.fn().mockReturnValue({
     kill: jest.fn(),
+    pid: 123,
   }),
 }));
 
