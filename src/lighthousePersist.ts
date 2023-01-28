@@ -188,10 +188,6 @@ export default async ({
         });
       }
 
-      if (verbose) {
-        console.log('chrome pid', chrome.pid);
-      }
-
       options.output = 'html';
 
       results = !timeout
