@@ -1,16 +1,13 @@
 import fs from 'fs';
-import lighthouse from 'lighthouse';
-import LighthouseResultInterface from 'lighthouse/types/lhr/lhr';
 import * as chromeLauncher from 'chrome-launcher';
 import AWS from 'aws-sdk';
-import ReportGenerator from 'lighthouse/report/generator/report-generator';
 import config from './config';
 import defaultOptions from './options';
 import upload from './helpers/upload';
 import getOpportunities from './helpers/getOpportunities';
 import getPageSpeedInsightsApiResult from './helpers/getPageSpeedInsightsApiResult';
-
-export { ReportGenerator };
+import loadLighthouse from './helpers/loadLighthouse';
+import loadReportGenerator from './helpers/loadReportGenerator';
 
 interface OpportunitiesInterface {
   id: string;
@@ -75,7 +72,7 @@ interface LighthousePersistResultInterface {
   loadingExperience?: LoadingExperienceInterface;
   localReport?: string;
   originLoadingExperience?: LoadingExperienceInterface;
-  result: LighthouseResultInterface;
+  result: any;
   report?: string;
   opportunities?: OpportunitiesInterface[];
 }
@@ -168,6 +165,7 @@ export default async ({
         throw Error(psiResults.error.message);
       }
 
+      const ReportGenerator = await loadReportGenerator();
       results = {
         lhr: psiResults.lighthouseResult,
         report: ReportGenerator.generateReportHtml(psiResults.lighthouseResult),
@@ -193,6 +191,8 @@ export default async ({
       }
 
       options.output = 'html';
+
+      const lighthouse = await loadLighthouse();
 
       results = !timeout
         ? await lighthouse(url, options, fullConfig)
