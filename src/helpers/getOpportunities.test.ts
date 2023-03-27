@@ -1,12 +1,12 @@
-import { loadUtil } from './getOpportunities';
+import { loadReportUtils } from './getOpportunities';
 
-describe('Util', () => {
-  it('Util.calculateRating should be a function', async () => {
-    const Util = await loadUtil();
-    expect(typeof Util.calculateRating).toBe('function');
+describe('ReportUtils', () => {
+  it('ReportUtils.calculateRating should be a function', async () => {
+    const ReportUtils = await loadReportUtils();
+    expect(typeof ReportUtils.calculateRating).toBe('function');
   });
-  it('Util.showAsPassed should be a function', async () => {
-    const Util = await loadUtil();
-    expect(typeof Util.showAsPassed).toBe('function');
+  it('ReportUtils.showAsPassed should be a function', async () => {
+    const ReportUtils = await loadReportUtils();
+    expect(typeof ReportUtils.showAsPassed).toBe('function');
   });
 });

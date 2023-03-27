@@ -1,6 +1,6 @@
 jest.mock('./helpers/getPageSpeedInsightsApiResult');
 
-import lighthousePersist, { ReportGenerator } from './lighthousePersist';
+import lighthousePersist from './lighthousePersist';
 import getPageSpeedInsightsApiResult from './helpers/getPageSpeedInsightsApiResult';
 
 jest.mock('chrome-launcher', () => ({
@@ -10,15 +10,15 @@ jest.mock('chrome-launcher', () => ({
   }),
 }));
 
-jest.mock('lighthouse', () => ({
+jest.mock('./helpers/loadLighthouse', () => ({
   __esModule: true,
-  default: jest.fn().mockReturnValue({
+  default: jest.fn().mockReturnValue(() => ({
     lhr: {
       categories: { performance: {} },
       mock: true,
     },
     report: '<h1>hello world</h1>',
-  }),
+  })),
 }));
 
 jest.mock('./helpers/upload', () => ({
@@ -69,11 +69,5 @@ describe('@foo-software/lighthouse-persist', () => {
     });
 
     expect(response).toMatchSnapshot();
-  });
-});
-
-describe('ReportGenerator', () => {
-  it('generateReportHtml should be a function', () => {
-    expect(typeof ReportGenerator.generateReportHtml).toBe('function');
   });
 });
