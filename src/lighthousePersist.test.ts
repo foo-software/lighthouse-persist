@@ -3,8 +3,8 @@ jest.mock('./helpers/getPageSpeedInsightsApiResult');
 import lighthousePersist from './lighthousePersist';
 import getPageSpeedInsightsApiResult from './helpers/getPageSpeedInsightsApiResult';
 
-jest.mock('chrome-launcher', () => ({
-  launch: jest.fn().mockReturnValue({
+jest.mock('./helpers/chromeLauncher', () => ({
+  chromeLauncher: jest.fn().mockReturnValue({
     kill: jest.fn(),
     pid: 123,
   }),
