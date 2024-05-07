@@ -1,5 +1,5 @@
 import fs from 'fs';
-import * as chromeLauncher from 'chrome-launcher';
+import { chromeLauncher } from './helpers/chromeLauncher';
 import AWS from 'aws-sdk';
 import config from './config';
 import defaultOptions from './options';
@@ -180,7 +180,7 @@ export default async ({
       }
     } else {
       if (!chrome) {
-        chrome = await chromeLauncher.launch({
+        chrome = await chromeLauncher({
           chromeFlags: options.chromeFlags,
           port: options.port,
         });

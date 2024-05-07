@@ -4,7 +4,7 @@
   "description": "A tool for persisting Lighthouse audit results used for website performance monitoring and analysis.",
   "main": "./dist/index.js",
   "engines": {
-    "node": ">=18.16"
+    "node": ">=20.0"
   },
   "files": [
     "dist/"
@@ -65,8 +65,8 @@
   },
   "dependencies": {
     "aws-sdk": "^2.1260.0",
-    "chrome-launcher": "^0.15.1",
+    "chrome-launcher": "^1.1.1",
     "lighthouse": "^12.0.0",
-    "node-fetch": "^3.3.0"
+    "node-fetch": "^3.3.2"
   }
 }
